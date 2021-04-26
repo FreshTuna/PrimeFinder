@@ -1,0 +1,42 @@
+header {
+    width: 100%;
+    position: fixed;
+    background-color: #89d1da;
+    color: white;
+    top:0;
+    left:0;
+    height: 90px;
+
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-self: center;
+    height: 100%;
+}
+
+header .container a{
+    text-decoration: none;
+    color: white
+}
+
+header .header-left {
+    display:flex;
+    align-items: center;
+    padding: 0px 50px;
+}
+
+header .header-right img {
+    height: 52px;
+}
+
+header .header-right {
+    display:flex;
+    align-items: center;
+    padding-right: 80px;
+}
+
+header h1{
+    margin: 0 auto;
+}

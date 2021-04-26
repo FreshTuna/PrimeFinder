@@ -1,0 +1,83 @@
+<head>
+     <link rel="stylesheet" href="app/assets/stylesheets/index.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="header-left">
+                <a href="/">
+                <h1>primefinder.io</h1>
+                </a>
+            </div>
+            <div class="header-right">
+                <a href="/">
+                    <img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/2a5bd0118280215.60866dc82c3de.png">
+                </a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <div class="content">
+                <div class="content-title">
+                    <h1>Primefinder</h1>
+                    <h2>csv 파일을 업로드하여 소수를 찾아보세요</h2>
+                </div>
+                <div class="content-input">
+                    <label for="fileInput">업로드</label>
+                    <input type="file" name="file" id="fileInput"/>
+
+                    <button id="fileSave">저장</button>
+                </div>
+                <div class="content-prime">
+                    <p id="primeContainer"></p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p> © 2020 Designed by .<a href="#" class="link" style="color: white; text-decoration: none;">junyoungJang</a> All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+<script>
+    const uploadFile = document.getElementById('fileInput');
+    const saveFile   = document.getElementById('fileSave');
+    const csrf       = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+
+    uploadFile.addEventListener('change', async (e) => {
+        e.preventDefault;
+
+        const file = document.getElementById('fileInput');
+        console.log(file.files[0]);
+        const res  = await send_file_to_server(file.files[0]);
+
+        const primeContainer =  document.getElementById('primeContainer');
+        console.log(res.toString().replace(/,/g, ', '))
+        primeContainer.innerHTML = res.toString().replace(/,/g, ', ')
+    })
+
+    saveFile.addEventListener('click', async (e) => {
+        e.preventDefault();
+    })
+
+    const send_file_to_server = async (input)=>{
+        const data = new FormData();
+        data.append('file', input);
+
+        const res = await fetch('/', {
+            method : 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrf
+            },
+            body: data
+        });
+        const response = await res.json();
+
+        if (res.status == 200 || res.status == 201) return response['data']
+
+        return undefined
+    }
+</script>

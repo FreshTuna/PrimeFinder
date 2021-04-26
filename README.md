@@ -1,24 +1,7 @@
-# README
+# PrimeFinder
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+# Notion link
 
-* Ruby version
+[PrimeFinder](https://www.notion.so/Ruby-on-Rails-5e7eb8660e524520bb9348dbfcd788bb)
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...

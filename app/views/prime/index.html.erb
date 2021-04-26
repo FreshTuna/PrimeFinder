@@ -40,7 +40,7 @@
     </main>
     <footer>
         <div class="container">
-            <p> © 2020 Designed by .<a href="#" class="link" style="color: white; text-decoration: none;">junyoungJang</a> All rights reserved.</p>
+            <p> © 2021 Designed by .<a href="#" class="link" style="color: white; text-decoration: none;">junyoungJang</a> All rights reserved.</p>
         </div>
     </footer>
 </body>
@@ -48,28 +48,30 @@
     const uploadFile = document.getElementById('fileInput');
     const saveFile   = document.getElementById('fileSave');
     const csrf       = document.querySelector("meta[name='csrf-token']").getAttribute("content");
-
+    const primes     = []
     uploadFile.addEventListener('change', async (e) => {
         e.preventDefault;
 
         const file = document.getElementById('fileInput');
-        console.log(file.files[0]);
         const res  = await send_file_to_server(file.files[0]);
+        i
 
-        const primeContainer =  document.getElementById('primeContainer');
-        console.log(res.toString().replace(/,/g, ', '))
+        const primeContainer     = document.getElementById('primeContainer');
         primeContainer.innerHTML = res.toString().replace(/,/g, ', ')
     })
 
     saveFile.addEventListener('click', async (e) => {
         e.preventDefault();
+
+        const primes = document.getElementById('primeContainer').innerHTML.split(", ");
+        const res    = await download_file_from_server(primes);
     })
 
     const send_file_to_server = async (input)=>{
         const data = new FormData();
         data.append('file', input);
 
-        const res = await fetch('/', {
+        const res = await fetch('/file', {
             method : 'POST',
             headers: {
                 'X-CSRF-TOKEN': csrf
@@ -79,6 +81,25 @@
         const response = await res.json();
 
         if (res.status == 200 || res.status == 201) return response['data']
+
+        return undefined
+    }
+
+    const download_file_from_server = async (primes) =>{
+        console.log(typeof primes); 
+        console.log(primes);
+        const res = await fetch('/file/csv', {
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/json;charset=utf-8',
+                'X-CSRF-TOKEN' : csrf
+            },
+            body: JSON.stringify({primes:primes})
+        });
+        const response = await res;
+        console.log(res);
+
+        if (res.status == 200 || res.status == 201) return response
 
         return undefined
     }
